@@ -15,8 +15,7 @@ CivicPulse is a Flask and MySQL web application that enables citizens to report 
 - SQLAlchemy
 - MySQL
 - Flask-Login
-- Git
-- GitHub
+- Git and GitHub
 
 ## User Roles
 
@@ -27,7 +26,7 @@ CivicPulse is a Flask and MySQL web application that enables citizens to report 
 - Submit complaints
 - Add category, location, description and up to 3 images
 - View own complaints
-- Track status and history
+- Track complaint status and history
 - Submit one feedback after resolution
 
 ### Admin
@@ -40,7 +39,7 @@ CivicPulse is a Flask and MySQL web application that enables citizens to report 
 - Update permitted complaint statuses
 - View complaint history
 - View feedback
-- Manage categories and departments if included
+- Manage categories and departments
 
 ## Complaint Workflow
 
@@ -54,7 +53,7 @@ In Progress
 ↓
 Resolved
 
-Alternative:
+Alternative outcome:
 
 Submitted → Rejected
 
