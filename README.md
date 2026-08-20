@@ -2,7 +2,7 @@
 
 ## Smart Civic Issue Reporting, Prioritization & Resolution System
 
-CivicPulse is a Flask and MySQL web application that enables citizens to report civic issues and allows administrators to verify, assign, track, and resolve those complaints.
+CivicPulse is a Flask and MySQL web application that enables citizens to report civic issues and allows administrators to verify, assign, track, and resolve complaints.
 
 ## Technology Stack
 
@@ -19,8 +19,8 @@ CivicPulse is a Flask and MySQL web application that enables citizens to report 
 
 ## User Roles
 
-- **Citizen** — reports civic issues, tracks their progress, and gives feedback after resolution.
-- **Admin** — verifies, assigns, tracks, and resolves complaints.
+- **Citizen** — registers and logs in, submits civic complaints with location details and up to three images, tracks complaint progress, and provides feedback after resolution.
+- **Admin** — reviews complaints, verifies or rejects them, sets priority, assigns departments and an authority/person, updates permitted statuses, and views complaint history and feedback.
 
 ## Complaint Workflow
 
@@ -44,8 +44,8 @@ Submitted → Rejected
 
 ## Development Phases
 
-1. Planning — completed
-2. GitHub Setup — in progress
+1. Planning
+2. GitHub Setup
 3. Requirement Analysis
 4. Database Design
 5. UI Design
@@ -54,23 +54,3 @@ Submitted → Rejected
 8. Testing
 9. Deployment
 10. Documentation
-
-## Retained Earlier Repository Notes
-
-The following notes were present in the existing remote repository before Phase 1 setup. The approved scope above is authoritative; CivicPulse does not include analytics.
-
-### Earlier feature notes
-
-- Citizen Complaint Registration
-- Complaint Tracking
-- Admin Dashboard
-- Department Assignment
-- Analytics
-- Priority Management
-
-### Earlier technology notes
-
-Frontend: HTML, CSS, JavaScript  
-Backend: Python Flask  
-Database: MySQL  
-Version Control: Git and GitHub
