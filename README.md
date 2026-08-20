@@ -15,37 +15,76 @@ CivicPulse is a Flask and MySQL web application that enables citizens to report 
 - SQLAlchemy
 - MySQL
 - Flask-Login
-- Git and GitHub
+- Git
+- GitHub
 
 ## User Roles
 
-- **Citizen** — registers and logs in, submits civic complaints with location details and up to three images, tracks complaint progress, and provides feedback after resolution.
-- **Admin** — reviews complaints, verifies or rejects them, sets priority, assigns departments and an authority/person, updates permitted statuses, and views complaint history and feedback.
+### Citizen
+
+- Register, login and logout
+- Manage profile
+- Submit complaints
+- Add category, location, description and up to 3 images
+- View own complaints
+- Track status and history
+- Submit one feedback after resolution
+
+### Admin
+
+- Login and logout
+- View all complaints
+- Verify or reject complaints
+- Set priority
+- Assign department and assigned_to person/authority
+- Update permitted complaint statuses
+- View complaint history
+- View feedback
+- Manage categories and departments if included
 
 ## Complaint Workflow
 
-```text
 Submitted
-    ↓
+↓
 Verified
-    ↓
+↓
 Assigned
-    ↓
+↓
 In Progress
-    ↓
+↓
 Resolved
-```
 
-Alternative outcome:
+Alternative:
 
-```text
 Submitted → Rejected
-```
+
+## Priority Levels
+
+- Low
+- Medium
+- High
+- Critical
+
+## Database
+
+MySQL relational database.
+
+Main entities:
+
+- users
+- complaints
+- categories
+- departments
+- locations
+- assignments
+- complaint_images
+- status_history
+- feedback
 
 ## Development Phases
 
-1. Planning
-2. GitHub Setup
+1. Planning — completed
+2. GitHub Setup — completed
 3. Requirement Analysis
 4. Database Design
 5. UI Design
@@ -54,3 +93,17 @@ Submitted → Rejected
 8. Testing
 9. Deployment
 10. Documentation
+
+## Project Boundaries
+
+The project does NOT include:
+
+- AI/ML
+- Data Analytics
+- GPS/live maps
+- Notifications
+- Chat/messaging
+- Payments
+- Mobile-native application
+- Government-system integration
+- Public complaint/social features
