@@ -33,6 +33,9 @@ class User(db.Model, UserMixin):
     def is_citizen(self):
         return self.role == 'Citizen'
 
+    def get_id(self):
+        return str(self.user_id)
+
     def __repr__(self):
         return f'<User {self.user_id}: {self.email}>'
 
