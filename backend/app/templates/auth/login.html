@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'public' %}
+{% set current_page = 'login' %}
+{% set page_title = 'CivicPulse | Login' %}
+
+{% block content %}
+<section class="auth-shell">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="auth-card row g-0">
+          <div class="col-lg-5 brand-panel">
+            <div class="d-flex flex-column h-100 justify-content-between">
+              <div>
+                <div class="icon-badge bg-white text-primary mb-3">🏛️</div>
+                <h2 class="mb-3">Welcome back</h2>
+                <p class="mb-0">Log in to access your complaint dashboard or the administrative workflow.</p>
+              </div>
+              <div class="mt-4">
+                <p class="mb-1 small text-white-50">Need a new account?</p>
+                <a href="/public/register" class="link-light text-decoration-none fw-bold">Create citizen account</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-4">Login</h3>
+            <form data-validate>
+              <div class="mb-3">
+                <label class="form-label" for="email">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
+              </div>
+
+              <div class="alert alert-warning">Demo UI only — no backend authentication is implemented in Phase 4.</div>
+
+              <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

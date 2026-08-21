@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'admin' %}
+{% set current_page = 'admin_complaints' %}
+{% set page_title = 'CivicPulse | All Complaints' %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <p class="text-primary fw-semibold mb-2">Complaint queue</p>
+          <h1 class="mb-0">All complaints</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Complaint ID</th>
+              <th>Citizen</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Submitted</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#CP-1042</td>
+              <td>Priya Sharma</td>
+              <td>Road</td>
+              <td>Sector 12, New Delhi</td>
+              <td><span class="badge-status status-assigned">Assigned</span></td>
+              <td><span class="priority-pill priority-high">High</span></td>
+              <td>2026-08-12</td>
+              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
+            </tr>
+            <tr>
+              <td>#CP-1045</td>
+              <td>Arvind Mehta</td>
+              <td>Garbage</td>
+              <td>Near Market Road, Delhi</td>
+              <td><span class="badge-status status-progress">In Progress</span></td>
+              <td><span class="priority-pill priority-medium">Medium</span></td>
+              <td>2026-08-14</td>
+              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
+            </tr>
+            <tr>
+              <td>#CP-1050</td>
+              <td>Neha Gupta</td>
+              <td>Water</td>
+              <td>Green Park, Delhi</td>
+              <td><span class="badge-status status-resolved">Resolved</span></td>
+              <td><span class="priority-pill priority-critical">Critical</span></td>
+              <td>2026-08-03</td>
+              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
+            </tr>
+            <tr>
+              <td>#CP-1053</td>
+              <td>Rohit Singh</td>
+              <td>Street Light</td>
+              <td>R.K. Puram, Delhi</td>
+              <td><span class="badge-status status-submitted">Submitted</span></td>
+              <td><span class="priority-pill priority-low">Low</span></td>
+              <td>2026-08-20</td>
+              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

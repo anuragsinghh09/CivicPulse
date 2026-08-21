@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'citizen' %}
+{% set current_page = 'complaints' %}
+{% set page_title = 'CivicPulse | Feedback' %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <p class="text-primary fw-semibold mb-2">Resolved complaint</p>
+          <h1 class="mb-0">Provide feedback</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4">
+      <div class="alert alert-success mb-4">This complaint is resolved and feedback is available.</div>
+      <form data-validate>
+        <div class="mb-3">
+          <label class="form-label" for="rating">Rating</label>
+          <select class="form-select" id="rating" name="rating" required>
+            <option value="">Select rating</option>
+            <option>5</option>
+            <option>4</option>
+            <option>3</option>
+            <option>2</option>
+            <option>1</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="comment">Comment</label>
+          <textarea class="form-control" id="comment" name="comment" rows="5" placeholder="Share your feedback about the resolution." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit feedback</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

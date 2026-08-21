@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'public' %}
+{% set current_page = 'login' %}
+{% set page_title = 'CivicPulse | Admin Login' %}
+
+{% block content %}
+<section class="auth-shell">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="auth-card row g-0">
+          <div class="col-lg-5 brand-panel">
+            <div class="d-flex flex-column h-100 justify-content-between">
+              <div>
+                <div class="icon-badge bg-white text-primary mb-3">🛡️</div>
+                <h2 class="mb-3">Admin access</h2>
+                <p class="mb-0">Use the administrative workflow to review, assign, and resolve civic complaints.</p>
+              </div>
+              <div class="mt-4">
+                <p class="mb-1 small text-white-50">Citizen login</p>
+                <a href="/public/login" class="link-light text-decoration-none fw-bold">Go to citizen login</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 p-4 p-lg-5">
+            <h3 class="mb-4">Admin Login</h3>
+            <form data-validate>
+              <div class="mb-3">
+                <label class="form-label" for="admin-email">Email address</label>
+                <input type="email" class="form-control" id="admin-email" name="admin-email" placeholder="admin@civicpulse.local" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="admin-password">Password</label>
+                <input type="password" class="form-control" id="admin-password" name="admin-password" placeholder="Enter admin password" required />
+              </div>
+
+              <div class="alert alert-warning">Demo UI only — no admin authentication is implemented in Phase 4.</div>
+
+              <button type="submit" class="btn btn-primary w-100">Login as admin</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

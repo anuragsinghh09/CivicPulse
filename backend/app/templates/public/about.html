@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'public' %}
+{% set current_page = 'about' %}
+{% set page_title = 'CivicPulse | About' %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <p class="text-primary fw-semibold mb-2">About CivicPulse</p>
+          <h1 class="mb-0">A transparent civic service portal</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card p-4">
+          <p>CivicPulse is designed to support the everyday civic needs of a city by giving citizens a simple way to report issues such as potholes, garbage, water leakage, street-light failure, and drainage conditions.</p>
+          <p>The platform keeps complaint records structured and traceable, allowing administrators to verify actionable issues, assign them to departments, and monitor resolution progress until completion.</p>
+          <p>The result is a practical, role-based complaint workflow that balances citizen visibility with controlled administrative action.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card p-4 h-100">
+          <h4 class="mb-3">Objectives</h4>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Improve citizen complaint reporting.</li>
+            <li class="list-group-item">Standardize complaint review and assignment.</li>
+            <li class="list-group-item">Track case progress with status history.</li>
+            <li class="list-group-item">Support citizen feedback after resolution.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

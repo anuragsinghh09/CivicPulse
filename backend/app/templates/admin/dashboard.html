@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'admin' %}
+{% set current_page = 'admin_dashboard' %}
+{% set page_title = 'CivicPulse | Admin Dashboard' %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <p class="text-primary fw-semibold mb-2">Admin dashboard</p>
+          <h1 class="mb-0">Complaint management overview</h1>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          <a href="/admin/complaints" class="btn btn-primary">View all complaints</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card p-4">
+          <p class="text-muted mb-1">Total complaints</p>
+          <div class="metric-value">128</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card warning p-4">
+          <p class="text-muted mb-1">Submitted</p>
+          <div class="metric-value">24</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card success p-4">
+          <p class="text-muted mb-1">In Progress</p>
+          <div class="metric-value">36</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card danger p-4">
+          <p class="text-muted mb-1">Resolved</p>
+          <div class="metric-value">52</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card p-4 h-100">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Priority overview</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Priority</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="priority-pill priority-low">Low</span></td>
+                  <td>31</td>
+                </tr>
+                <tr>
+                  <td><span class="priority-pill priority-medium">Medium</span></td>
+                  <td>46</td>
+                </tr>
+                <tr>
+                  <td><span class="priority-pill priority-high">High</span></td>
+                  <td>33</td>
+                </tr>
+                <tr>
+                  <td><span class="priority-pill priority-critical">Critical</span></td>
+                  <td>18</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card p-4 h-100">
+          <h3 class="mb-3">Administrative actions</h3>
+          <div class="d-grid gap-3">
+            <a href="/admin/complaints" class="btn btn-outline-primary">Review complaints</a>
+            <a href="/admin/categories" class="btn btn-outline-primary">Manage categories</a>
+            <a href="/admin/departments" class="btn btn-outline-primary">Manage departments</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

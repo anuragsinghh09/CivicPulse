@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% set active_role = 'citizen' %}
+{% set current_page = 'citizen_dashboard' %}
+{% set page_title = 'CivicPulse | Citizen Dashboard' %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <p class="text-primary fw-semibold mb-2">Citizen dashboard</p>
+          <h1 class="mb-0">Welcome back, Priya Sharma</h1>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          <a href="/citizen/complaint-form" class="btn btn-primary">Submit new complaint</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card p-4">
+          <p class="text-muted mb-1">Total complaints</p>
+          <div class="metric-value">12</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card warning p-4">
+          <p class="text-muted mb-1">Submitted</p>
+          <div class="metric-value">3</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card success p-4">
+          <p class="text-muted mb-1">In Progress</p>
+          <div class="metric-value">5</div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card metric-card danger p-4">
+          <p class="text-muted mb-1">Resolved</p>
+          <div class="metric-value">4</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card p-4 h-100">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Recent complaints</h3>
+            <a href="/citizen/complaints" class="link-muted">View all</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Complaint ID</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#CP-1042</td>
+                  <td>Road</td>
+                  <td><span class="badge-status status-assigned">Assigned</span></td>
+                  <td><a href="/citizen/complaint-details" class="link-muted">View</a></td>
+                </tr>
+                <tr>
+                  <td>#CP-1045</td>
+                  <td>Garbage</td>
+                  <td><span class="badge-status status-progress">In Progress</span></td>
+                  <td><a href="/citizen/complaint-details" class="link-muted">View</a></td>
+                </tr>
+                <tr>
+                  <td>#CP-1050</td>
+                  <td>Water</td>
+                  <td><span class="badge-status status-resolved">Resolved</span></td>
+                  <td><a href="/citizen/complaint-details" class="link-muted">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card p-4 h-100">
+          <h3 class="mb-3">Quick actions</h3>
+          <div class="d-grid gap-3">
+            <a href="/citizen/complaint-form" class="btn btn-outline-primary">Submit complaint</a>
+            <a href="/citizen/complaints" class="btn btn-outline-primary">Track my complaints</a>
+            <a href="/citizen/profile" class="btn btn-outline-primary">Update profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
