@@ -17,19 +17,19 @@
     </div>
 
     <div class="card p-4">
-      <form data-validate>
+      <form method="post" action="{{ url_for('citizen.profile') }}" data-validate>
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label" for="full_name">Full name</label>
-            <input type="text" class="form-control" id="full_name" value="Priya Sharma" required />
+            <input type="text" class="form-control" id="full_name" name="full_name" value="{{ user.full_name }}" required />
           </div>
           <div class="col-md-6">
             <label class="form-label" for="phone">Phone number</label>
-            <input type="tel" class="form-control" id="phone" value="+91 98765 43210" required />
+            <input type="tel" class="form-control" id="phone" name="phone" value="{{ user.phone }}" required />
           </div>
           <div class="col-md-12">
             <label class="form-label" for="email">Email address</label>
-            <input type="email" class="form-control" id="email" value="priya.sharma@example.com" required />
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required />
           </div>
         </div>
         <div class="d-flex justify-content-end mt-4">

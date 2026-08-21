@@ -71,6 +71,7 @@ def complaint_detail_default():
 @admin_required
 def complaint_detail(complaint_id):
     complaint = Complaint.query.get_or_404(complaint_id)
+    departments = Department.query.filter_by(is_active=True).order_by(Department.name).all()
     if request.method == 'POST':
         from ..services.complaint_service import update_complaint_status
 
@@ -80,36 +81,40 @@ def complaint_detail(complaint_id):
         assigned_to = request.form.get('assignedTo') or request.form.get('assigned_to')
         note = request.form.get('note') or ''
 
-        if status:
-            complaint = update_complaint_status(complaint, status, current_user.user_id, note)
-        if priority:
-            complaint.priority = priority
-        if department_id and assigned_to:
-            dept = Department.query.get(department_id)
-            if dept is None:
-                flash('Department not found.', 'warning')
-                return render_template('admin/complaint_detail.html', active_role='admin', current_page='admin_complaints', complaint=complaint)
-            assignment = Assignment(
-                complaint_id=complaint.complaint_id,
-                department_id=dept.department_id,
-                assigned_to=assigned_to,
-                assigned_by=current_user.user_id,
-            )
-            db.session.add(assignment)
-            complaint.status = 'Assigned'
-            complaint.updated_at = db.func.current_timestamp()
-            db.session.add(StatusHistory(
-                complaint_id=complaint.complaint_id,
-                previous_status=complaint.status,
-                new_status='Assigned',
-                changed_by=current_user.user_id,
-                note='Department assignment updated.',
-            ))
-        db.session.commit()
+        try:
+            if priority:
+                if priority not in {'Low', 'Medium', 'High', 'Critical'}:
+                    raise ValueError('Invalid priority value.')
+                complaint.priority = priority
+
+            if status == 'Assigned' or (department_id and assigned_to):
+                if complaint.status != 'Verified':
+                    raise ValueError('A complaint must be verified before assignment.')
+                if not department_id or not assigned_to.strip():
+                    raise ValueError('Department and assigned-to are required for assignment.')
+                dept = db.session.get(Department, department_id)
+                if dept is None or not dept.is_active:
+                    raise ValueError('Department not found.')
+                db.session.add(Assignment(
+                    complaint_id=complaint.complaint_id,
+                    department_id=dept.department_id,
+                    assigned_to=assigned_to.strip(),
+                    assigned_by=current_user.user_id,
+                ))
+                complaint = update_complaint_status(complaint, 'Assigned', current_user.user_id, note or 'Department assignment recorded.')
+            elif status:
+                complaint = update_complaint_status(complaint, status, current_user.user_id, note)
+            else:
+                db.session.commit()
+        except ValueError as error:
+            db.session.rollback()
+            flash(str(error), 'warning')
+            return render_template('admin/complaint_detail.html', active_role='admin', current_page='admin_complaints', complaint=complaint, departments=departments)
+
         flash('Complaint updated successfully.', 'success')
         return redirect(url_for('admin.complaint_detail', complaint_id=complaint.complaint_id))
 
-    return render_template('admin/complaint_detail.html', active_role='admin', current_page='admin_complaints', complaint=complaint)
+    return render_template('admin/complaint_detail.html', active_role='admin', current_page='admin_complaints', complaint=complaint, departments=departments)
 
 
 @admin_bp.route('/admin/categories')

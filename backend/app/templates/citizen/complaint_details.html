@@ -11,10 +11,10 @@
       <div class="row align-items-center">
         <div class="col-md-8">
           <p class="text-primary fw-semibold mb-2">Complaint details</p>
-          <h1 class="mb-0">Complaint #CP-1050</h1>
+          <h1 class="mb-0">Complaint #{{ complaint.complaint_id }}</h1>
         </div>
         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-          <span class="badge-status status-resolved">Resolved</span>
+          <span class="badge-status status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span>
         </div>
       </div>
     </div>
@@ -23,64 +23,55 @@
       <div class="col-lg-8">
         <div class="detail-pane mb-4">
           <div class="row g-3">
-            <div class="col-md-6"><p class="text-muted mb-1">Complaint ID</p><h6>#CP-1050</h6></div>
-            <div class="col-md-6"><p class="text-muted mb-1">Category</p><h6>Water</h6></div>
-            <div class="col-md-6"><p class="text-muted mb-1">Current status</p><h6><span class="badge-status status-resolved">Resolved</span></h6></div>
-            <div class="col-md-6"><p class="text-muted mb-1">Priority</p><h6><span class="priority-pill priority-critical">Critical</span></h6></div>
-            <div class="col-md-6"><p class="text-muted mb-1">Assigned department</p><h6>Water Department</h6></div>
-            <div class="col-md-6"><p class="text-muted mb-1">Assigned to</p><h6>Field Engineer R. Singh</h6></div>
-            <div class="col-12"><p class="text-muted mb-1">Description</p><p class="mb-0">Pipeline leakage near Green Park caused severe water logging in the area. The issue was reported on a rainy day and required urgent attention.</p></div>
+            <div class="col-md-6"><p class="text-muted mb-1">Complaint ID</p><h6>#{{ complaint.complaint_id }}</h6></div>
+            <div class="col-md-6"><p class="text-muted mb-1">Category</p><h6>{{ complaint.category.name }}</h6></div>
+            <div class="col-md-6"><p class="text-muted mb-1">Current status</p><h6><span class="badge-status status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span></h6></div>
+            <div class="col-md-6"><p class="text-muted mb-1">Priority</p><h6><span class="priority-pill priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></h6></div>
+            <div class="col-md-6"><p class="text-muted mb-1">Assigned department</p><h6>{{ complaint.assignments[-1].department.name if complaint.assignments else 'Not assigned' }}</h6></div>
+            <div class="col-md-6"><p class="text-muted mb-1">Assigned to</p><h6>{{ complaint.assignments[-1].assigned_to if complaint.assignments else 'Not assigned' }}</h6></div>
+            <div class="col-12"><p class="text-muted mb-1">Description</p><p class="mb-0">{{ complaint.description }}</p></div>
           </div>
         </div>
 
         <div class="detail-pane mb-4">
           <h4 class="mb-3">Location</h4>
-          <p class="mb-1"><strong>Area:</strong> Green Park</p>
-          <p class="mb-1"><strong>City:</strong> New Delhi</p>
-          <p class="mb-1"><strong>Pincode:</strong> 110016</p>
-          <p class="mb-0"><strong>Coordinates:</strong> 28.5568, 77.2054</p>
+          <p class="mb-1"><strong>Area:</strong> {{ complaint.location.area }}</p>
+          <p class="mb-1"><strong>City:</strong> {{ complaint.location.city }}</p>
+          <p class="mb-1"><strong>Pincode:</strong> {{ complaint.location.pincode }}</p>
+          <p class="mb-0"><strong>Coordinates:</strong> {{ complaint.location.latitude or 'N/A' }}, {{ complaint.location.longitude or 'N/A' }}</p>
         </div>
 
         <div class="detail-pane mb-4">
           <h4 class="mb-3">Images</h4>
           <div class="row g-3">
-            <div class="col-md-4"><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=80" class="img-fluid rounded" alt="Complaint image preview 1" /></div>
-            <div class="col-md-4"><img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=700&q=80" class="img-fluid rounded" alt="Complaint image preview 2" /></div>
-            <div class="col-md-4"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=700&q=80" class="img-fluid rounded" alt="Complaint image preview 3" /></div>
+            {% for image in complaint.images %}
+              <div class="col-md-4"><img src="{{ url_for('static', filename=image.file_path) }}" class="img-fluid rounded" alt="Complaint image {{ loop.index }}" /></div>
+            {% else %}
+              <p class="text-muted mb-0">No images attached.</p>
+            {% endfor %}
           </div>
         </div>
 
         <div class="detail-pane mb-4">
           <h4 class="mb-3">Status history</h4>
           <div class="timeline">
-            <div class="timeline-item">
-              <h6>Submitted</h6>
-              <small class="text-muted">12 Aug 2026</small>
-            </div>
-            <div class="timeline-item">
-              <h6>Verified</h6>
-              <small class="text-muted">13 Aug 2026</small>
-            </div>
-            <div class="timeline-item">
-              <h6>Assigned</h6>
-              <small class="text-muted">14 Aug 2026</small>
-            </div>
-            <div class="timeline-item">
-              <h6>In Progress</h6>
-              <small class="text-muted">16 Aug 2026</small>
-            </div>
-            <div class="timeline-item">
-              <h6>Resolved</h6>
-              <small class="text-muted">18 Aug 2026</small>
-            </div>
+            {% for event in complaint.status_history|sort(attribute='changed_at') %}
+              <div class="timeline-item">
+                <h6>{{ event.new_status }}</h6>
+                <small class="text-muted">{{ event.changed_at.strftime('%d %b %Y') }}{% if event.note %} — {{ event.note }}{% endif %}</small>
+              </div>
+            {% endfor %}
           </div>
         </div>
 
         <div class="detail-pane">
           <h4 class="mb-3">Assignment history</h4>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Water Department — Field Engineer R. Singh — 14 Aug 2026</li>
-            <li class="list-group-item">Water Department — Senior Technician A. Verma — 17 Aug 2026</li>
+            {% for assignment in complaint.assignments|sort(attribute='assigned_at') %}
+              <li class="list-group-item">{{ assignment.department.name }} — {{ assignment.assigned_to }} — {{ assignment.assigned_at.strftime('%d %b %Y') }}</li>
+            {% else %}
+              <li class="list-group-item text-muted">No assignment history.</li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -88,9 +79,15 @@
       <div class="col-lg-4">
         <div class="detail-pane mb-4">
           <h4 class="mb-3">Feedback</h4>
-          <div class="alert alert-success">Feedback submitted</div>
-          <p class="mb-1"><strong>Rating:</strong> 5/5</p>
-          <p class="mb-0"><strong>Comment:</strong> The repair was done quickly and the water issue was resolved effectively.</p>
+          {% if complaint.feedback %}
+            <div class="alert alert-success">Feedback submitted</div>
+            <p class="mb-1"><strong>Rating:</strong> {{ complaint.feedback.rating }}/5</p>
+            <p class="mb-0"><strong>Comment:</strong> {{ complaint.feedback.comment }}</p>
+          {% elif complaint.status == 'Resolved' %}
+            <a href="{{ url_for('citizen.feedback_form', complaint_id=complaint.complaint_id) }}" class="btn btn-primary">Submit feedback</a>
+          {% else %}
+            <p class="text-muted mb-0">Feedback becomes available after resolution.</p>
+          {% endif %}
         </div>
       </div>
     </div>

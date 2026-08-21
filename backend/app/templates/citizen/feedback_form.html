@@ -17,8 +17,8 @@
     </div>
 
     <div class="card p-4">
-      <div class="alert alert-success mb-4">This complaint is resolved and feedback is available.</div>
-      <form data-validate>
+      <div class="alert alert-success mb-4">Complaint #{{ complaint.complaint_id }} is resolved and feedback is available.</div>
+      <form method="post" action="{{ url_for('citizen.feedback_form', complaint_id=complaint.complaint_id) }}" data-validate>
         <div class="mb-3">
           <label class="form-label" for="rating">Rating</label>
           <select class="form-select" id="rating" name="rating" required>

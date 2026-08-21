@@ -29,7 +29,7 @@
               <li class="nav-item"><a class="nav-link{% if current_page == 'complaint_form' %} active{% endif %}" href="/citizen/complaint-form">Submit Complaint</a></li>
               <li class="nav-item"><a class="nav-link{% if current_page == 'complaints' %} active{% endif %}" href="/citizen/complaints">My Complaints</a></li>
               <li class="nav-item"><a class="nav-link{% if current_page == 'profile' %} active{% endif %}" href="/citizen/profile">Profile</a></li>
-              <li class="nav-item"><a class="btn btn-outline-light px-3 ms-lg-2" href="/public/home">Logout</a></li>
+              <li class="nav-item"><a class="btn btn-outline-light px-3 ms-lg-2" href="{{ url_for('auth.logout') }}">Logout</a></li>
             </ul>
           {% elif active_role == 'admin' %}
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
@@ -37,7 +37,7 @@
               <li class="nav-item"><a class="nav-link{% if current_page == 'admin_complaints' %} active{% endif %}" href="/admin/complaints">Complaints</a></li>
               <li class="nav-item"><a class="nav-link{% if current_page == 'categories' %} active{% endif %}" href="/admin/categories">Categories</a></li>
               <li class="nav-item"><a class="nav-link{% if current_page == 'departments' %} active{% endif %}" href="/admin/departments">Departments</a></li>
-              <li class="nav-item"><a class="btn btn-outline-light px-3 ms-lg-2" href="/public/home">Logout</a></li>
+              <li class="nav-item"><a class="btn btn-outline-light px-3 ms-lg-2" href="{{ url_for('admin.logout') }}">Logout</a></li>
             </ul>
           {% endif %}
         </div>
@@ -45,6 +45,16 @@
     </nav>
 
     <main>
+      <div class="container pt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endwith %}
+      </div>
       {% block content %}{% endblock %}
     </main>
 

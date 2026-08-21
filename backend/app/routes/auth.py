@@ -39,6 +39,10 @@ def register():
             flash('All registration fields are required.', 'warning')
             return render_template('auth/register.html', active_role='public', current_page='register')
 
+        if len(password) < 8:
+            flash('Password must contain at least 8 characters.', 'warning')
+            return render_template('auth/register.html', active_role='public', current_page='register')
+
         if User.query.filter_by(email=email).first():
             flash('This email address is already registered.', 'warning')
             return render_template('auth/register.html', active_role='public', current_page='register')

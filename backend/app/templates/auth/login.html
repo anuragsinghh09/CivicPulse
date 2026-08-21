@@ -25,7 +25,7 @@
           </div>
           <div class="col-lg-7 p-4 p-lg-5">
             <h3 class="mb-4">Login</h3>
-            <form data-validate>
+            <form method="post" action="{{ url_for('auth.login') }}" data-validate>
               <div class="mb-3">
                 <label class="form-label" for="email">Email address</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required />
@@ -34,8 +34,6 @@
                 <label class="form-label" for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
               </div>
-
-              <div class="alert alert-warning">Demo UI only — no backend authentication is implemented in Phase 4.</div>
 
               <button type="submit" class="btn btn-primary w-100">Login</button>
             </form>

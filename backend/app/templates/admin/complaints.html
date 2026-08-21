@@ -32,46 +32,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#CP-1042</td>
-              <td>Priya Sharma</td>
-              <td>Road</td>
-              <td>Sector 12, New Delhi</td>
-              <td><span class="badge-status status-assigned">Assigned</span></td>
-              <td><span class="priority-pill priority-high">High</span></td>
-              <td>2026-08-12</td>
-              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
-            </tr>
-            <tr>
-              <td>#CP-1045</td>
-              <td>Arvind Mehta</td>
-              <td>Garbage</td>
-              <td>Near Market Road, Delhi</td>
-              <td><span class="badge-status status-progress">In Progress</span></td>
-              <td><span class="priority-pill priority-medium">Medium</span></td>
-              <td>2026-08-14</td>
-              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
-            </tr>
-            <tr>
-              <td>#CP-1050</td>
-              <td>Neha Gupta</td>
-              <td>Water</td>
-              <td>Green Park, Delhi</td>
-              <td><span class="badge-status status-resolved">Resolved</span></td>
-              <td><span class="priority-pill priority-critical">Critical</span></td>
-              <td>2026-08-03</td>
-              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
-            </tr>
-            <tr>
-              <td>#CP-1053</td>
-              <td>Rohit Singh</td>
-              <td>Street Light</td>
-              <td>R.K. Puram, Delhi</td>
-              <td><span class="badge-status status-submitted">Submitted</span></td>
-              <td><span class="priority-pill priority-low">Low</span></td>
-              <td>2026-08-20</td>
-              <td><a href="/admin/complaint-detail" class="link-muted">Review</a></td>
-            </tr>
+            {% for complaint in complaints %}
+              <tr>
+                <td>#{{ complaint.complaint_id }}</td>
+                <td>{{ complaint.citizen.full_name }}</td>
+                <td>{{ complaint.category.name }}</td>
+                <td>{{ complaint.location.area }}, {{ complaint.location.city }}</td>
+                <td><span class="badge-status status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span></td>
+                <td><span class="priority-pill priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></td>
+                <td>{{ complaint.created_at.strftime('%Y-%m-%d') }}</td>
+                <td><a href="{{ url_for('admin.complaint_detail', complaint_id=complaint.complaint_id) }}" class="link-muted">Review</a></td>
+              </tr>
+            {% else %}
+              <tr><td colspan="8" class="text-muted">No complaints found.</td></tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

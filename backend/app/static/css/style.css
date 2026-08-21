@@ -107,7 +107,8 @@ img {
 .status-submitted { background: #e0f2fe; color: #075985; }
 .status-verified { background: #e0e7ff; color: #4338ca; }
 .status-assigned { background: #fef3c7; color: #92400e; }
-.status-progress { background: #dcfce7; color: #166534; }
+.status-progress,
+.status-in-progress { background: #dcfce7; color: #166534; }
 .status-resolved { background: #d1fae5; color: #065f46; }
 .status-rejected { background: #fee2e2; color: #991b1b; }
 

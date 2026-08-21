@@ -17,18 +17,15 @@
     </div>
 
     <div class="form-section">
-      <form data-validate>
+      <form method="post" action="{{ url_for('citizen.complaint_form') }}" enctype="multipart/form-data" data-validate>
         <div class="row g-4">
           <div class="col-md-6">
             <label class="form-label" for="category">Category</label>
             <select class="form-select" id="category" name="category" required>
               <option value="">Select category</option>
-              <option>Road</option>
-              <option>Garbage</option>
-              <option>Water</option>
-              <option>Street Light</option>
-              <option>Drainage</option>
-              <option>Other</option>
+              {% for category in categories %}
+                <option value="{{ category.category_id }}">{{ category.name }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -65,7 +62,7 @@
           <div class="col-12">
             <label class="form-label">Images</label>
             <div class="alert alert-warning mb-3">Maximum 3 images</div>
-            <input type="file" class="form-control" id="complaintImages" data-image-preview="imagePreview" accept="image/png, image/jpeg" multiple />
+            <input type="file" class="form-control" id="complaintImages" name="images" data-image-preview="imagePreview" accept="image/png, image/jpeg" multiple />
             <div class="upload-preview" id="imagePreview"></div>
           </div>
         </div>

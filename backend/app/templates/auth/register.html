@@ -18,7 +18,7 @@
             <div class="icon-badge">👤</div>
           </div>
 
-          <form data-validate>
+          <form method="post" action="{{ url_for('auth.register') }}" data-validate>
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label" for="full_name">Full name</label>
@@ -37,8 +37,6 @@
                 <input type="password" class="form-control" id="password" name="password" required />
               </div>
             </div>
-
-            <div class="alert alert-warning mt-4">This registration form is a UI mockup only. The database and backend logic are not implemented in Phase 4.</div>
 
             <div class="d-flex justify-content-between align-items-center mt-4">
               <a href="/public/login" class="link-muted">Already have an account?</a>

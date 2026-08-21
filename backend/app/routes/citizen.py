@@ -24,7 +24,7 @@ def citizen_required(func):
 @citizen_bp.route('/citizen/dashboard')
 @citizen_required
 def dashboard():
-    complaints = Complaint.query.filter_by(citizen_id=current_user.user_id).all()
+    complaints = Complaint.query.filter_by(citizen_id=current_user.user_id).order_by(Complaint.created_at.desc()).all()
     return render_template('citizen/dashboard.html', active_role='citizen', current_page='citizen_dashboard', complaints=complaints)
 
 
@@ -37,6 +37,7 @@ def complaint_form():
 
         complaint = create_complaint(current_user.user_id, request.form, request.files)
         if complaint is None:
+            flash('Please check the complaint details and upload no more than 3 valid images.', 'warning')
             return render_template('citizen/complaint_form.html', active_role='citizen', current_page='complaint_form', categories=categories)
         flash('Complaint submitted successfully.', 'success')
         return redirect(url_for('citizen.complaints'))
@@ -122,7 +123,12 @@ def feedback_form(complaint_id):
 
         feedback = Feedback(complaint_id=complaint.complaint_id, rating=rating_value, comment=comment)
         db.session.add(feedback)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            flash('Feedback could not be submitted.', 'danger')
+            return render_template('citizen/feedback_form.html', active_role='citizen', current_page='complaints', complaint=complaint)
         flash('Feedback submitted successfully.', 'success')
         return redirect(url_for('citizen.complaint_detail', complaint_id=complaint_id))
 

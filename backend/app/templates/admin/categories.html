@@ -19,7 +19,7 @@
     <div class="card p-4">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="mb-0">Complaint categories</h3>
-        <button class="btn btn-primary">Add category</button>
+        <span class="text-muted">{{ categories|length }} categories</span>
       </div>
       <div class="table-responsive">
         <table class="table align-middle mb-0">
@@ -32,24 +32,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Road</td>
-              <td>Potholes, damaged roads, road surface issues</td>
-              <td><span class="badge-status status-progress">Active</span></td>
-              <td><a href="#" class="link-muted">Edit</a></td>
-            </tr>
-            <tr>
-              <td>Garbage</td>
-              <td>Overflowing bins or waste disposal concerns</td>
-              <td><span class="badge-status status-progress">Active</span></td>
-              <td><a href="#" class="link-muted">Edit</a></td>
-            </tr>
-            <tr>
-              <td>Water</td>
-              <td>Leakage, contamination, supply disruption</td>
-              <td><span class="badge-status status-progress">Active</span></td>
-              <td><a href="#" class="link-muted">Edit</a></td>
-            </tr>
+            {% for category in categories %}
+              <tr>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description or 'No description' }}</td>
+                <td><span class="badge-status status-progress">{{ 'Active' if category.is_active else 'Inactive' }}</span></td>
+                <td><span class="text-muted">Database-managed</span></td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="text-muted">No categories found.</td></tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

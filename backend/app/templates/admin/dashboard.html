@@ -23,25 +23,25 @@
       <div class="col-md-6 col-xl-3">
         <div class="card metric-card p-4">
           <p class="text-muted mb-1">Total complaints</p>
-          <div class="metric-value">128</div>
+          <div class="metric-value">{{ complaints|length }}</div>
         </div>
       </div>
       <div class="col-md-6 col-xl-3">
         <div class="card metric-card warning p-4">
           <p class="text-muted mb-1">Submitted</p>
-          <div class="metric-value">24</div>
+          <div class="metric-value">{{ complaints|selectattr('status', 'equalto', 'Submitted')|list|length }}</div>
         </div>
       </div>
       <div class="col-md-6 col-xl-3">
         <div class="card metric-card success p-4">
           <p class="text-muted mb-1">In Progress</p>
-          <div class="metric-value">36</div>
+          <div class="metric-value">{{ complaints|selectattr('status', 'equalto', 'In Progress')|list|length }}</div>
         </div>
       </div>
       <div class="col-md-6 col-xl-3">
         <div class="card metric-card danger p-4">
           <p class="text-muted mb-1">Resolved</p>
-          <div class="metric-value">52</div>
+          <div class="metric-value">{{ complaints|selectattr('status', 'equalto', 'Resolved')|list|length }}</div>
         </div>
       </div>
     </div>
@@ -63,19 +63,19 @@
               <tbody>
                 <tr>
                   <td><span class="priority-pill priority-low">Low</span></td>
-                  <td>31</td>
+                  <td>{{ complaints|selectattr('priority', 'equalto', 'Low')|list|length }}</td>
                 </tr>
                 <tr>
                   <td><span class="priority-pill priority-medium">Medium</span></td>
-                  <td>46</td>
+                  <td>{{ complaints|selectattr('priority', 'equalto', 'Medium')|list|length }}</td>
                 </tr>
                 <tr>
                   <td><span class="priority-pill priority-high">High</span></td>
-                  <td>33</td>
+                  <td>{{ complaints|selectattr('priority', 'equalto', 'High')|list|length }}</td>
                 </tr>
                 <tr>
                   <td><span class="priority-pill priority-critical">Critical</span></td>
-                  <td>18</td>
+                  <td>{{ complaints|selectattr('priority', 'equalto', 'Critical')|list|length }}</td>
                 </tr>
               </tbody>
             </table>

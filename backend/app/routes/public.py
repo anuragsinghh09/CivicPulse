@@ -18,11 +18,5 @@ def about():
     return render_template('public/about.html', active_role='public', current_page='about')
 
 
-@public_bp.route('/public/login')
-def login_page():
-    return redirect(url_for('auth.login'))
 
 
-@public_bp.route('/public/register')
-def register_page():
-    return redirect(url_for('auth.register'))
