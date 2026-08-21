@@ -92,17 +92,3 @@ Main entities:
 8. Testing
 9. Deployment
 10. Documentation
-
-## Project Boundaries
-
-The project does NOT include:
-
-- AI/ML
-- Data Analytics
-- GPS/live maps
-- Notifications
-- Chat/messaging
-- Payments
-- Mobile-native application
-- Government-system integration
-- Public complaint/social features
