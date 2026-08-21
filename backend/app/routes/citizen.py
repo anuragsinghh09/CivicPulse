@@ -33,12 +33,19 @@ def dashboard():
 def complaint_form():
     categories = Category.query.filter_by(is_active=True).all()
     if request.method == 'POST':
-        from ..services.complaint_service import create_complaint
+        from ..services.complaint_service import ComplaintValidationError, create_complaint
 
-        complaint = create_complaint(current_user.user_id, request.form, request.files)
-        if complaint is None:
-            flash('Please check the complaint details and upload no more than 3 valid images.', 'warning')
-            return render_template('citizen/complaint_form.html', active_role='citizen', current_page='complaint_form', categories=categories)
+        try:
+            complaint = create_complaint(current_user.user_id, request.form, request.files)
+        except ComplaintValidationError as error:
+            flash(str(error), 'warning')
+            return render_template(
+                'citizen/complaint_form.html',
+                active_role='citizen',
+                current_page='complaint_form',
+                categories=categories,
+                form_data=request.form,
+            )
         flash('Complaint submitted successfully.', 'success')
         return redirect(url_for('citizen.complaints'))
 

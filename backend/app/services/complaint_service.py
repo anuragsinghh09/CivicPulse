@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from flask import current_app, request
+from flask import current_app
 from werkzeug.utils import secure_filename
 
 from ..extensions import db
@@ -17,6 +17,10 @@ ALLOWED_STATUS_FLOW = {
     'Resolved': set(),
     'Rejected': set(),
 }
+
+
+class ComplaintValidationError(ValueError):
+    pass
 
 
 def allowed_transition(current_status, next_status):
@@ -35,29 +39,31 @@ def create_complaint(citizen_id, form_data, files):
     from ..models import Category
 
     if not category_id or not area or not city or not pincode or not description:
-        return None
+        raise ComplaintValidationError('Category, area, city, pincode, and description are required.')
 
     try:
         category_id_int = int(category_id)
     except (TypeError, ValueError):
         category = Category.query.filter_by(name=str(category_id)).first()
         if category is None:
-            return None
+            raise ComplaintValidationError('Select a valid complaint category.')
         category_id_int = category.category_id
 
     if not Category.query.get(category_id_int):
-        return None
+        raise ComplaintValidationError('Select a valid complaint category.')
 
     if len(str(pincode)) != 6 or not pincode.isdigit():
-        return None
+        raise ComplaintValidationError('Pincode must contain exactly 6 digits.')
 
     if latitude:
         try:
             latitude_val = float(latitude)
             if latitude_val < -90 or latitude_val > 90:
-                return None
-        except ValueError:
-            return None
+                raise ComplaintValidationError('Latitude must be between -90 and 90.')
+        except ValueError as error:
+            if isinstance(error, ComplaintValidationError):
+                raise
+            raise ComplaintValidationError('Latitude must be a valid number.')
     else:
         latitude_val = None
 
@@ -65,18 +71,33 @@ def create_complaint(citizen_id, form_data, files):
         try:
             longitude_val = float(longitude)
             if longitude_val < -180 or longitude_val > 180:
-                return None
-        except ValueError:
-            return None
+                raise ComplaintValidationError('Longitude must be between -180 and 180.')
+        except ValueError as error:
+            if isinstance(error, ComplaintValidationError):
+                raise
+            raise ComplaintValidationError('Longitude must be a valid number.')
     else:
         longitude_val = None
 
-    upload_files = request.files.getlist('images') if 'images' in request.files else []
-    if upload_files and len(upload_files) > 3:
-        return None
+    upload_files = [file for file in files.getlist('images') if file and file.filename]
+    if len(upload_files) > 3:
+        raise ComplaintValidationError('You can upload a maximum of 3 images.')
 
-    if not upload_files:
-        upload_files = []
+    validated_files = []
+    for file in upload_files:
+        filename = secure_filename(file.filename)
+        if not filename:
+            raise ComplaintValidationError('One uploaded file has an invalid filename.')
+        ext = Path(filename).suffix.lower()
+        if ext not in ALLOWED_IMAGE_EXTENSIONS:
+            raise ComplaintValidationError('Images must be JPG, JPEG, or PNG files.')
+        if file.stream is not None:
+            file.stream.seek(0, os.SEEK_END)
+            size = file.stream.tell()
+            file.stream.seek(0)
+            if size > 5 * 1024 * 1024:
+                raise ComplaintValidationError('Each image must be 5 MB or smaller.')
+        validated_files.append((file, ext))
 
     location = Location(area=area, city=city, pincode=pincode, latitude=latitude_val, longitude=longitude_val)
     db.session.add(location)
@@ -105,23 +126,7 @@ def create_complaint(citizen_id, form_data, files):
     upload_dir = Path(current_app.config['UPLOAD_FOLDER'])
     upload_dir.mkdir(parents=True, exist_ok=True)
 
-    for index, file in enumerate(upload_files, start=1):
-        if file is None or file.filename == '':
-            continue
-        filename = secure_filename(file.filename)
-        if not filename:
-            return None
-        ext = Path(filename).suffix.lower()
-        if ext not in ALLOWED_IMAGE_EXTENSIONS:
-            return None
-        if file.content_length and file.content_length > 5 * 1024 * 1024:
-            return None
-        if file.stream is not None:
-            file.stream.seek(0, os.SEEK_END)
-            size = file.stream.tell()
-            file.stream.seek(0)
-            if size > 5 * 1024 * 1024:
-                return None
+    for index, (file, ext) in enumerate(validated_files, start=1):
         saved_name = f"complaint_{complaint.complaint_id}_{index}{ext}"
         save_path = upload_dir / saved_name
         file.save(save_path)

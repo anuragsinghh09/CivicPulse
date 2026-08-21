@@ -22,41 +22,41 @@
           <div class="col-md-6">
             <label class="form-label" for="category">Category</label>
             <select class="form-select" id="category" name="category" required>
-              <option value="">Select category</option>
+                <option value="">Select category</option>
               {% for category in categories %}
-                <option value="{{ category.category_id }}">{{ category.name }}</option>
+                <option value="{{ category.category_id }}"{% if form_data and form_data.get('category') == category.category_id|string %} selected{% endif %}>{{ category.name }}</option>
               {% endfor %}
             </select>
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="area">Area</label>
-            <input type="text" class="form-control" id="area" name="area" placeholder="e.g. Sector 12" required />
+            <input type="text" class="form-control" id="area" name="area" value="{{ form_data.get('area', '') if form_data else '' }}" placeholder="e.g. Sector 12" required />
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="city">City</label>
-            <input type="text" class="form-control" id="city" name="city" placeholder="e.g. New Delhi" required />
+            <input type="text" class="form-control" id="city" name="city" value="{{ form_data.get('city', '') if form_data else '' }}" placeholder="e.g. New Delhi" required />
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="pincode">Pincode</label>
-            <input type="text" class="form-control" id="pincode" name="pincode" placeholder="e.g. 110001" required />
+            <input type="text" class="form-control" id="pincode" name="pincode" value="{{ form_data.get('pincode', '') if form_data else '' }}" placeholder="e.g. 110001" required />
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="latitude">Latitude (optional)</label>
-            <input type="number" step="0.000001" class="form-control" id="latitude" name="latitude" placeholder="Optional" />
+            <input type="number" step="0.000001" class="form-control" id="latitude" name="latitude" value="{{ form_data.get('latitude', '') if form_data else '' }}" placeholder="Optional" />
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="longitude">Longitude (optional)</label>
-            <input type="number" step="0.000001" class="form-control" id="longitude" name="longitude" placeholder="Optional" />
+            <input type="number" step="0.000001" class="form-control" id="longitude" name="longitude" value="{{ form_data.get('longitude', '') if form_data else '' }}" placeholder="Optional" />
           </div>
 
           <div class="col-12">
             <label class="form-label" for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="6" placeholder="Describe the issue clearly and include relevant details." required></textarea>
+            <textarea class="form-control" id="description" name="description" rows="6" placeholder="Describe the issue clearly and include relevant details." required>{{ form_data.get('description', '') if form_data else '' }}</textarea>
           </div>
 
           <div class="col-12">
