@@ -16,9 +16,11 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
-            login_user(user)
             if user.role == 'Admin':
-                return redirect(url_for('admin.dashboard'))
+                flash('Administrators must use the dedicated admin login.', 'warning')
+                return redirect(url_for('admin.login'))
+
+            login_user(user)
             return redirect(url_for('citizen.dashboard'))
 
         flash('Invalid email or password.', 'danger')
